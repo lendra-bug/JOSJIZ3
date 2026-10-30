@@ -1,0 +1,112 @@
+// --- DOM Elements ---
+const timerDisplay = document.getElementById('timer');
+const startBtn = document.getElementById('start-btn');
+const resetBtn = document.getElementById('reset-btn');
+const journalInput = document.getElementById('journal-input');
+const saveJournalBtn = document.getElementById('save-journal-btn');
+const journalLogs = document.getElementById('journal-logs');
+const statusBadge = document.getElementById('status-badge');
+
+// --- Pomodoro Logic ---
+let timerInterval;
+let timeLeft = 25 * 60; // 25 menit dalam detik
+let isRunning = false;
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const seconds = (timeLeft % 60).toString().padStart(2, '0');
+    timerDisplay.textContent = `${minutes}:${seconds}`;
+}
+
+function startTimer() {
+    if (isRunning) {
+        // Pause
+        clearInterval(timerInterval);
+        startBtn.textContent = 'Mulai';
+        startBtn.className = 'btn-primary';
+        isRunning = false;
+    } else {
+        // Start
+        isRunning = true;
+        startBtn.textContent = 'Pause';
+        startBtn.className = 'btn-secondary';
+        timerInterval = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTimerDisplay();
+            } else {
+                clearInterval(timerInterval);
+                alert('Sesi fokus selesai! Waktunya istirahat sebentar dan minum air.');
+                resetTimer();
+            }
+        }, 1000);
+    }
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timeLeft = 25 * 60;
+    isRunning = false;
+    startBtn.textContent = 'Mulai';
+    startBtn.className = 'btn-primary';
+    updateTimerDisplay();
+}
+
+startBtn.addEventListener('click', startTimer);
+resetBtn.addEventListener('click', resetTimer);
+
+
+// --- Offline Mood Journal Logic ---
+let journals = JSON.parse(localStorage.getItem('zzen_journals')) || [];
+
+function renderJournals() {
+    journalLogs.innerHTML = '';
+    // Tampilkan dari yang paling baru (reverse)
+    [...journals].reverse().forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'log-item';
+        div.innerHTML = `
+            <div class="log-time">${item.time}</div>
+            <div class="log-text">${item.text}</div>
+        `;
+        journalLogs.appendChild(div);
+    });
+}
+
+function saveJournal() {
+    const text = journalInput.value.trim();
+    if (text !== '') {
+        const now = new Date();
+        const timeString = now.toLocaleDateString('id-ID', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+
+        journals.push({ text: text, time: timeString });
+        localStorage.setItem('zzen_journals', JSON.stringify(journals));
+        renderJournals();
+        journalInput.value = '';
+    }
+}
+
+saveJournalBtn.addEventListener('click', saveJournal);
+
+
+// --- Real-time Network Status Checker ---
+function checkNetwork() {
+    if (navigator.onLine) {
+        statusBadge.textContent = "Online";
+        statusBadge.className = "badge online";
+    } else {
+        statusBadge.textContent = "Offline Mode";
+        statusBadge.className = "badge offline";
+    }
+}
+
+window.addEventListener('online', checkNetwork);
+window.addEventListener('offline', checkNetwork);
+
+// --- Init App ---
+updateTimerDisplay();
+renderJournals();
+checkNetwork();
