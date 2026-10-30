@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Zen: Focus & Digital Detox</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Z-Zen%20Detox%22,%22short_name%22:%22ZZen%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23121214%22,%22theme_color%22:%22%238257e5%22}">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <div class="brand">
+                <h1>⚡ Z-Zen</h1>
+                <p>Disconnect to Reconnect</p>
+            </div>
+            <div id="status-badge" class="badge online">Online</div>
+        </header>
+
+        <!-- POMODORO TIMER SECTION -->
+        <section class="card timer-section">
+            <h2>⏱️ Focus Session</h2>
+            <div class="timer-display" id="timer">25:00</div>
+            <div class="timer-controls">
+                <button id="start-btn" class="btn-primary">Mulai</button>
+                <button id="reset-btn" class="btn-secondary">Reset</button>
+            </div>
+        </section>
+
+        <!-- DAILY REFLECTION / MOOD JOURNAL -->
+        <section class="card journal-section">
+            <h2>🧠 Mood & Brain Dump</h2>
+            <p class="subtitle">Tulis apa yang kamu rasakan tanpa filter (100% aman & offline)</p>
+            <div class="input-group">
+                <textarea id="journal-input" placeholder="Gimana hari ini? Lagi burned out atau overthinking? Tumpahin di sini..."></textarea>
+                <button id="save-journal-btn" class="btn-primary">Simpan Refleksi</button>
+            </div>
+            <div id="journal-logs" class="logs-container">
+                <!-- Log jurnal akan muncul di sini -->
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Service Worker untuk akses Offline Penuh
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'zzen-v1';
+                    const ASSETS = ['./', './index.html', './style.css', './script.js'];
+                    self.addEventListener('install', e => {
+                        e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
+                    });
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+                    });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl).catch(() => {});
+            });
+        }
+    </script>
+</body>
+</html>
