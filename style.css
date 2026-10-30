@@ -1,0 +1,173 @@
+/* Dark Mode Aesthetic ala Gen Z */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+body {
+    background-color: #121214;
+    color: #e1e1e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+}
+
+.brand h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #8257e5;
+    letter-spacing: -0.5px;
+}
+
+.brand p {
+    font-size: 13px;
+    color: #7c7c8a;
+}
+
+.badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.online { background-color: #015f43; color: #00b37e; }
+.offline { background-color: #aa2222; color: #f75a68; }
+
+/* Card Styling */
+.card {
+    background-color: #202024;
+    border: 1px solid #323238;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #7c7c8a;
+    margin-bottom: 12px;
+}
+
+/* Timer Styling */
+.timer-section {
+    text-align: center;
+}
+
+.timer-display {
+    font-size: 64px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 15px 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.timer-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* Buttons */
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #8257e5;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #9466ff;
+}
+
+.btn-secondary {
+    background-color: #29292e;
+    color: #c4c4cc;
+}
+
+.btn-secondary:hover {
+    background-color: #323238;
+}
+
+/* Journal Styling */
+textarea {
+    width: 100%;
+    height: 100px;
+    background-color: #121214;
+    border: 1px solid #323238;
+    border-radius: 8px;
+    padding: 12px;
+    color: #e1e1e6;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+textarea:focus {
+    border-color: #8257e5;
+}
+
+.input-group button {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.logs-container {
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.log-item {
+    background-color: #121214;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid #8257e5;
+}
+
+.log-time {
+    font-size: 11px;
+    color: #7c7c8a;
+    margin-bottom: 4px;
+}
+
+.log-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
